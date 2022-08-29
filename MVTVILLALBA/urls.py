@@ -5,5 +5,5 @@ from Familiares.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('mensaje/', intro_message),
-    #path('familia/', integrantes),
+    path('familia/', integrantes),
 ]

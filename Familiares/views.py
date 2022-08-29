@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from Familiares.models import Familiar
 from django.http import HttpResponse
-from django.template import loader
+from django.template import Template, Context, loader
+import datetime
 
 def intro_message(request):
 
@@ -12,19 +13,33 @@ def intro_message(request):
 
     return HttpResponse(mostrar_mensaje)
 
-def fecha_nacimiento(request, edad):
+def integrantes(request):
 
-    anio_nacimiento = 2022 - int(edad)
+    integrante_1 = Familiar(nombre = "Santiago", estatura = 1.78, fecha_de_nacimiento = datetime.date(1972, 4, 24))
+    integrante_2 = Familiar(nombre = "Emilia", estatura = 1.60, fecha_de_nacimiento = datetime.date(2004, 12, 18))
+    integrante_3 = Familiar(nombre = "Susana", estatura = 1.62, fecha_de_nacimiento = datetime.date(1996, 8, 22))
+    integrante_4 = Familiar(nombre = "Gaston", estatura = 1.70, fecha_de_nacimiento = datetime.date(1980, 3, 8))
 
-    return anio_nacimiento
+    integrante_1.save()
+    integrante_2.save()
+    integrante_3.save()
+    integrante_4.save()
+    
+    dicc_familia = {"Miembro_1" : integrante_1, "Miembro_2" : integrante_2, "Miembro_3" : integrante_3, "Miembro_4" : integrante_4}
 
-'''def integrantes(request, nacimiento):
+    '''archivo = open("C:/Users/Samuel/OneDrive/Escritorio/VS Programms/Coder/Desafios/Desafio6/Desafio_Familia/Plantillas/plantilla_1.html")
+    leer = archivo.read()
+    archivo.close()'''
 
-    fecha = fecha_nacimiento(nacimiento) 
+    #plantilla = Template(leer)
+    #contexto = Context(dicc_familia)
+    #docu = plantilla.render(contexto)
 
-    integrante_1 = Familiar(nombre = "Santiago", estatura = 1.78, fecha_de_nacimiento = fecha_nacimiento)
-    integrante_2 = Familiar(nombre = "Emilia", estatura = 1.60, fecha_de_nacimiento = fecha_nacimiento)
-    integrante_3 = Familiar(nombre = "Susana", estatura = 1.62, fecha_de_nacimiento = )
-    integrante_4 = Familiar(nombre = "Gaston", estatura = 1.70, fecha_de_nacimiento = "")
-
-    return HttpResponse()'''
+    '''
+    Intente usar el loader pero siempre metiraba error de que la clase Familiar(models) no es iterable
+    plantilla = loader.get_template("plantilla_1.html")
+    docu = plantilla.render(dicc_familia)
+    
+    return HttpResponse(docu)'''
+    
+    return render(request, "plantilla_1.html", dicc_familia)
